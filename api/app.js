@@ -25,10 +25,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors);
 
-app.use('/', routerAuth);
+app.use('/api', routerAuth);
 app.use(auth);
-app.use('/users', routerUsers);
-app.use('/movies', routerMovies);
+app.use('/api/users', routerUsers);
+app.use('/api/movies', routerMovies);
 
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена.'));
