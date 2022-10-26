@@ -2,8 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-const { errors, celebrate, Joi } = require('celebrate');
+const { errors } = require('celebrate');
 const cors = require('./middlewares/cors');
+const { auth } = require('./middlewares/auth');
+const routerUsers = require('./routes/users');
+const routerMovies = require('./routes/movies');
+const routerAuth = require('./routes/auth');
 const errorMessage = require('./errors/errorMessage');
 const NotFound = require('./errors/notFound');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -20,7 +24,11 @@ app.use(requestLogger);
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors);
-const { regExp } = require('./constants/regularExpression');
+
+app.use('/', routerAuth);
+app.use(auth);
+app.use('/users', routerUsers);
+app.use('/movies', routerMovies);
 
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена.'));

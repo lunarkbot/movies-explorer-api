@@ -14,7 +14,8 @@ router.post('/', celebrate({
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required().integer(),
-    year: Joi.number().required().integer().min(4).max(4),
+    year: Joi.number().required().integer().min(4)
+      .max(4),
     description: Joi.string().required(),
     image: Joi.string().required().regex(regExpUrl),
     trailerLink: Joi.string().required().regex(regExpUrl),
