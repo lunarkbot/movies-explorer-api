@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
-const ForbiddenError = require('../errors/forbidden');
-const BadRequestError = require('../errors/badRequest');
-const NotFound = require('../errors/notFound');
+const ForbiddenError = require('../errors/forbiddenError');
+const BadRequestError = require('../errors/badRequestError');
+const NotFoundError = require('../errors/notFoundError');
 
 const getMovies = (req, res, next) => {
   Movie.find({})
@@ -23,6 +23,7 @@ const addMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
+    movieId,
     owner = req.user._id,
   } = req.body;
 
@@ -37,6 +38,7 @@ const addMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
+    movieId,
     owner,
   })
     .then((movie) => {
@@ -54,7 +56,7 @@ const addMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .orFail(() => {
-      throw new NotFound('Фильм не найден');
+      throw new NotFoundError('Фильм не найден');
     })
     .then((movie) => {
       if (movie.owner.toString() === req.user._id) {

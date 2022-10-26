@@ -1,11 +1,11 @@
-const { allowedCors, DEFAULT_ALLOWED_METHODS } = require('../constants/index');
+const { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS } = require('../constants/index');
 
 const cors = (req, res, next) => {
   const { method } = req;
   const { origin } = req.headers;
   const reqHeaders = req.headers['access-control-request-headers'];
   res.header('Access-Control-Allow-Credentials', true);
-  if (allowedCors.includes(origin)) {
+  if (ALLOWED_CORS.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   if (method === 'OPTIONS') {

@@ -21,7 +21,6 @@ const auth = (req, res, next) => {
 
   req.user = payload;
 
-  // eslint-disable-next-line consistent-return
   next();
 };
 

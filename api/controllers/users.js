@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const ConflictError = require('../errors/conflictError');
-const BadRequestError = require('../errors/badRequest');
-const NotFound = require('../errors/notFound');
+const BadRequestError = require('../errors/badRequestError');
+const NotFoundError = require('../errors/notFoundError');
 const NotAuthError = require('../errors/notAuthError');
 
 const signUp = (req, res, next) => {
@@ -37,19 +37,18 @@ const signIn = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        next(new NotAuthError('Ошибка авторизации'));
+        next(new NotAuthError('Ошибка авторизации.'));
       }
 
-      const secret = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'secret-code';
       const token = jwt.sign(
         { _id: user._id },
-        secret,
+        process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : 'secret-code',
         { expiresIn: '7d' },
       );
 
       res
         .cookie('access_token', token, {
-          sameSite: 'true',
+          sameSite: 'none',
           secure: process.env.NODE_ENV === 'production',
         })
         .send({ message: 'Аутентификация прошла успешно' });
@@ -65,7 +64,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        return next(new NotFound());
+        return next(new NotFoundError());
       }
 
       return res.send(user);
@@ -83,7 +82,7 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        return next(new NotFound('Пользователь не найден.'));
+        return next(new NotFoundError('Пользователь не найден.'));
       }
 
       return res.send(user);

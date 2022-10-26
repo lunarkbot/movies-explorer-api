@@ -3,7 +3,6 @@ const { celebrate, Joi } = require('celebrate');
 const {
   signUp,
   signIn,
-  signOut,
 } = require('../controllers/users');
 
 router.post('/signin', celebrate({
@@ -20,7 +19,5 @@ router.post('/signup', celebrate({
     password: Joi.string().required(),
   }),
 }), signUp);
-
-router.get('/signout', signOut);
 
 module.exports = router;

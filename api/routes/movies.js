@@ -14,12 +14,13 @@ router.post('/', celebrate({
     country: Joi.string().required(),
     director: Joi.string().required(),
     duration: Joi.number().required().integer(),
-    year: Joi.number().required().integer().min(4)
-      .max(4),
+    year: Joi.number().required().integer().min(1900)
+      .max(2040),
     description: Joi.string().required(),
     image: Joi.string().required().regex(regExpUrl),
     trailerLink: Joi.string().required().regex(regExpUrl),
     thumbnail: Joi.string().required().regex(regExpUrl),
+    movieId: Joi.string().required(),
     nameRU: Joi.string().required().regex(ruName),
     nameEN: Joi.string().required().regex(enName),
   }),
