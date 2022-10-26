@@ -44,7 +44,7 @@ const signIn = (req, res, next) => {
       const token = jwt.sign(
         { _id: user._id },
         secret,
-        { expiresIn: '7d' }
+        { expiresIn: '7d' },
       );
 
       res
@@ -55,11 +55,11 @@ const signIn = (req, res, next) => {
         .send({ message: 'Аутентификация прошла успешно' });
     })
     .catch(next);
-}
+};
 
 const signOut = (req, res) => {
   res.clearCookie('access_token').send({ message: 'Выход' });
-}
+};
 
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -86,7 +86,7 @@ const updateUser = (req, res, next) => {
         return next(new NotFound('Пользователь не найден.'));
       }
 
-      res.send(user);
+      return res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError' || err.name === 'CastError') {

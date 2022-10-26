@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 const { default: isURL } = require('validator/lib/isURL');
 
 const movieSchema = new mongoose.Schema({

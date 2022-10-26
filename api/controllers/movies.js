@@ -60,18 +60,18 @@ const deleteMovie = (req, res, next) => {
       if (movie.owner.toString() === req.user._id) {
         Movie.findByIdAndRemove(req.params.movieId)
           .then(() => res.send({
-            message: 'Фильм успешно удален'
+            message: 'Фильм успешно удален',
           }))
           .catch(next);
       } else {
-        next(new ForbiddenError('Удалить данный фильм невозможно. Вы не являетесь владельцем фильмотеки.'))
+        next(new ForbiddenError('Удалить данный фильм невозможно. Вы не являетесь владельцем фильмотеки.'));
       }
     })
     .catch(next);
-}
+};
 
 module.exports = {
   getMovies,
   addMovie,
   deleteMovie,
-}
+};
