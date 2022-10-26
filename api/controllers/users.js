@@ -57,6 +57,10 @@ const signIn = (req, res, next) => {
     .catch(next);
 }
 
+const signOut = (req, res) => {
+  res.clearCookie('access_token').send({ message: 'Выход' });
+}
+
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
@@ -96,6 +100,7 @@ const updateUser = (req, res, next) => {
 module.exports = {
   signUp,
   signIn,
+  signOut,
   getCurrentUser,
   updateUser,
 };
