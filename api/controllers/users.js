@@ -15,9 +15,9 @@ const signUp = (req, res, next) => {
         name, email, password: hash,
       })
         .then((user) => res.send({
+          _id: user._id,
           name: user.name,
           email: user.email,
-          _id: user._id,
         }))
         .catch((err) => {
           if (err.name === 'ValidationError') {
@@ -28,7 +28,8 @@ const signUp = (req, res, next) => {
             next(err);
           }
         });
-    });
+    })
+    .catch(next);
 };
 
 const signIn = (req, res, next) => {
@@ -88,11 +89,15 @@ const updateUser = (req, res, next) => {
       return res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError' || err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError());
-      } else {
-        next(err);
+        return;
       }
+      if (err.name === 'CastError') {
+        next(new NotFoundError('Пользователь не найден.'));
+        return;
+      }
+      next(err);
     });
 };
 
