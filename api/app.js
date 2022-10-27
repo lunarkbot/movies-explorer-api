@@ -6,7 +6,7 @@ const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cors = require('./middlewares/cors');
 const router = require('./routes');
-const errorMessage = require('./errors/errorMessage');
+const errorsHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./utils');
 
@@ -34,6 +34,6 @@ app.use('/api', router);
 
 app.use(errorLogger);
 app.use(errors());
-app.use(errorMessage);
+app.use(errorsHandler);
 
 app.listen(PORT);

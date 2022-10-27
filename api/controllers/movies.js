@@ -46,7 +46,7 @@ const addMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Данные некорректны'));
+        next(new BadRequestError());
       } else {
         next(err);
       }
@@ -66,7 +66,7 @@ const deleteMovie = (req, res, next) => {
           }))
           .catch(next);
       } else {
-        next(new ForbiddenError('Удалить данный фильм невозможно. Вы не являетесь владельцем фильмотеки.'));
+        next(new ForbiddenError());
       }
     })
     .catch(next);
