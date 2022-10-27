@@ -2,12 +2,14 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
 const cors = require('./middlewares/cors');
 const router = require('./routes');
 const errorsHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require('./errors/notFoundError');
 const { limiter } = require('./utils');
 
 const {
@@ -19,21 +21,27 @@ const app = express();
 
 app.use(limiter);
 
+app.use(helmet());
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors);
+
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
 });
 
-app.use(helmet());
+app.listen(PORT);
 
 app.use(requestLogger);
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors);
 
 app.use('/api', router);
+
+app.all('/*', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена.'));
+});
 
 app.use(errorLogger);
 app.use(errors());
 app.use(errorsHandler);
-
-app.listen(PORT);
