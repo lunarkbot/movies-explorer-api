@@ -40,6 +40,7 @@ const signIn = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new UnauthorizedError(ERRORS.unauthorized.authError));
+        return;
       }
 
       const token = jwt.sign(
