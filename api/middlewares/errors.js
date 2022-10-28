@@ -1,14 +1,12 @@
 const { ERRORS } = require('../constants');
 
 module.exports = (err, req, res, next) => {
-  const { statusCode = ERRORS.server.code, message } = err;
+  const { statusCode = ERRORS.server.code } = err;
 
   res
-    .status(err.statusCode)
+    .status(statusCode)
     .send({
-      message: statusCode === 500
-        ? ERRORS.server.value
-        : message,
+      message: ERRORS.server.value,
     });
   next();
 };
