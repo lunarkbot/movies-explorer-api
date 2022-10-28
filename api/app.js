@@ -10,21 +10,23 @@ const router = require('./routes');
 const errorsHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./utils');
+const { DB_DEFAULT_URL } = require('./constants/config');
 
 const {
   PORT = 3000,
-  DB_URL = 'mongodb://localhost:27017/bitfilmsdb',
+  DB_URL = DB_DEFAULT_URL,
 } = process.env;
 
 const app = express();
 
+app.use(requestLogger);
 app.use(limiter);
-
 app.use(helmet());
 
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors);
 
 mongoose.connect(DB_URL, {
@@ -32,8 +34,6 @@ mongoose.connect(DB_URL, {
 });
 
 app.listen(PORT);
-
-app.use(requestLogger);
 
 app.use('/api', router);
 
