@@ -90,12 +90,12 @@ const updateUser = (req, res, next) => {
       return res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'ValidationError' || err.name === 'CastError') {
         next(new BadRequestError());
         return;
       }
-      if (err.name === 'CastError') {
-        next(new NotFoundError(ERRORS.notFound.user));
+      if (err.code === 11000) {
+        next(new ConflictError());
         return;
       }
       next(err);
