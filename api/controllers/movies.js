@@ -4,7 +4,9 @@ const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({
+    owner: req.user._id,
+  })
     .then((movies) => {
       res.send(movies);
     })
