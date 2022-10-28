@@ -4,6 +4,7 @@ const routerUsers = require('./users');
 const routerAuth = require('./auth');
 const { auth } = require('../middlewares/auth');
 const { signOut } = require('../controllers/users');
+const { ERRORS } = require('../constants/index');
 const NotFoundError = require('../errors/notFoundError');
 
 router.use('/', routerAuth);
@@ -15,7 +16,7 @@ router.use('/users', routerUsers);
 router.use('/movies', routerMovies);
 
 router.all('/*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена.'));
+  next(new NotFoundError(ERRORS.notFound.page));
 });
 
 module.exports = router;
