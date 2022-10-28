@@ -9,7 +9,6 @@ const cors = require('./middlewares/cors');
 const router = require('./routes');
 const errorsHandler = require('./middlewares/errors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const NotFoundError = require('./errors/notFoundError');
 const { limiter } = require('./utils');
 
 const {
@@ -37,10 +36,6 @@ app.listen(PORT);
 app.use(requestLogger);
 
 app.use('/api', router);
-
-app.all('/*', (req, res, next) => {
-  next(new NotFoundError('Страница не найдена.'));
-});
 
 app.use(errorLogger);
 app.use(errors());
