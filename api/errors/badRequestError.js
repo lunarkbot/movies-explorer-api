@@ -1,7 +1,9 @@
+const { ERRORS } = require('../constants');
+
 class BadRequestError extends Error {
-  constructor(message = 'Переданы некорректные данные.') {
+  constructor(message = ERRORS.badRequest.value) {
     super(message);
-    this.statusCode = 400;
+    this.statusCode = ERRORS.badRequest.code;
   }
 }
 

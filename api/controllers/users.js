@@ -4,7 +4,8 @@ const User = require('../models/user');
 const ConflictError = require('../errors/conflictError');
 const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
-const NotAuthError = require('../errors/notAuthError');
+const UnauthorizedError = require('../errors/unauthorizedError');
+const { ERRORS } = require('../constants');
 
 const signUp = (req, res, next) => {
   const { name, email, password } = req.body;
@@ -38,7 +39,7 @@ const signIn = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        next(new NotAuthError('Ошибка авторизации.'));
+        next(new UnauthorizedError(ERRORS.unauthorized.authError));
       }
 
       const token = jwt.sign(
@@ -65,7 +66,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError());
+        return next(new NotFoundError(ERRORS.notFound.user));
       }
 
       return res.send(user);
@@ -83,7 +84,7 @@ const updateUser = (req, res, next) => {
   )
     .then((user) => {
       if (!user) {
-        return next(new NotFoundError('Пользователь не найден.'));
+        return next(new NotFoundError(ERRORS.notFound.user));
       }
 
       return res.send(user);
@@ -94,7 +95,7 @@ const updateUser = (req, res, next) => {
         return;
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Пользователь не найден.'));
+        next(new NotFoundError(ERRORS.notFound.user));
         return;
       }
       next(err);

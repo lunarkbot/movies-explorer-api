@@ -1,7 +1,9 @@
+const { ERRORS } = require('../constants');
+
 class ConflictError extends Error {
-  constructor(message = 'Пользователь с указанными данными уже зарегистрирован.') {
+  constructor(message = ERRORS.conflict.value) {
     super(message);
-    this.statusCode = 409;
+    this.statusCode = ERRORS.conflict.code;
   }
 }
 

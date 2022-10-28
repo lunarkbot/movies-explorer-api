@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const ForbiddenError = require('../errors/forbiddenError');
 const BadRequestError = require('../errors/badRequestError');
 const NotFoundError = require('../errors/notFoundError');
+const { ERRORS } = require('../constants');
 
 const getMovies = (req, res, next) => {
   Movie.find({
@@ -58,7 +59,7 @@ const addMovie = (req, res, next) => {
 const deleteMovie = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .orFail(() => {
-      throw new NotFoundError('Фильм не найден');
+      throw new NotFoundError(ERRORS.notFound.movie);
     })
     .then((movie) => {
       if (movie.owner.equals(req.user._id)) {

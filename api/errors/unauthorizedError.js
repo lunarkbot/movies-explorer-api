@@ -1,9 +1,11 @@
-class NotAuthError extends Error {
-  constructor(message = 'Неправильные почта или пароль') {
+const { ERRORS } = require('../constants');
+
+class UnauthorizedError extends Error {
+  constructor(message = ERRORS.unauthorized.value) {
     super(message);
-    this.statusCode = 401;
+    this.statusCode = ERRORS.unauthorized.code;
     this.name = this.constructor.name;
   }
 }
 
-module.exports = NotAuthError;
+module.exports = UnauthorizedError;
