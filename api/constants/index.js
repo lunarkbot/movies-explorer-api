@@ -5,6 +5,7 @@ const ALLOWED_CORS = [
   'http://web.kbot.nomoredomains.icu',
   'https://web.kbot.nomoredomains.icu',
   'web.kbot.nomoredomains.icu',
+  'http://localhost:3001',
 ];
 
 const ERRORS = {
