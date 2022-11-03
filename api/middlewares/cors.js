@@ -6,9 +6,9 @@ const cors = (req, res, next) => {
   const reqHeaders = req.headers['access-control-request-headers'];
   res.header('Access-Control-Allow-Credentials', true);
 
-  //if (ALLOWED_CORS.includes(origin)) {
+  if (ALLOWED_CORS.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
-  //}
+  }
   if (method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', reqHeaders);
