@@ -52,7 +52,7 @@ const signIn = (req, res, next) => {
       res
         .cookie('access_token', token, {
           sameSite: 'none',
-          secure: process.env.NODE_ENV === 'production',
+          secure: true,
         })
         .send({
           _id: user._id,
