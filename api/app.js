@@ -20,7 +20,7 @@ const {
 const app = express();
 
 app.use(requestLogger);
-app.use(limiter);
+//app.use(limiter);
 app.use(helmet());
 
 app.use(cookieParser());

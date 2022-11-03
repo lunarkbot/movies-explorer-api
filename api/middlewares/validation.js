@@ -19,14 +19,14 @@ const validateAddMovie = celebrate({
     trailerLink: Joi.string().required().regex(regExpUrl),
     thumbnail: Joi.string().required().regex(regExpUrl),
     movieId: Joi.number().required(),
-    nameRU: Joi.string().required().regex(ruName),
-    nameEN: Joi.string().required().regex(enName),
+    nameRU: Joi.string().required(),
+    nameEN: Joi.string().required(),
   }),
 });
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex().length(24).required(),
+    movieId: Joi.number().required(),
   }),
 });
 

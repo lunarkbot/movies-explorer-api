@@ -52,9 +52,13 @@ const signIn = (req, res, next) => {
       res
         .cookie('access_token', token, {
           sameSite: 'none',
-          secure: true //process.env.NODE_ENV === 'production',
+          secure: process.env.NODE_ENV === 'production',
         })
-        .send({ message: 'Аутентификация прошла успешно' });
+        .send({
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+        });
     })
     .catch(next);
 };
