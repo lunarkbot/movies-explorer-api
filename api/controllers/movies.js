@@ -29,13 +29,13 @@ const addMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  Movie.findOne({movieId: req.params.movieId, owner: req.user._id})
+  Movie.findById(req.params.movieId)
     .orFail(() => {
       throw new NotFoundError(ERRORS.notFound.movie);
     })
     .then((movie) => {
       if (movie.owner.equals(req.user._id)) {
-        Movie.findOneAndRemove({movieId: req.params.movieId})
+        Movie.findByIdAndRemove(req.params.movieId)
           .then(() => res.send({
             message: 'Фильм успешно удален',
           }))
