@@ -29,7 +29,7 @@ const addMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  Movie.findOne({movieId: req.params.movieId})
+  Movie.findOne({movieId: req.params.movieId, owner: req.user._id})
     .orFail(() => {
       throw new NotFoundError(ERRORS.notFound.movie);
     })
